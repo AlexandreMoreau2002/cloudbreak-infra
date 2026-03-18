@@ -1,0 +1,10 @@
+{
+  "restoreTerminals.terminals": [
+    {
+      "splitTerminals": [{ "name": "Claude", "commands": ["claude --resume"] }]
+    },
+    {
+      "splitTerminals": [{ "name": "Terminal", "commands": [] }]
+    }
+  ]
+}
