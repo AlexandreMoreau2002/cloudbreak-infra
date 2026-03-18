@@ -1,0 +1,47 @@
+services:
+  api:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8001:8000"
+    volumes:
+      - ../backend:/app  # hot reload — les changements de code sont pris en compte sans rebuild
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/cloudbreak
+      - REDIS_URL=redis://redis:6379
+      - ENVIRONMENT=development
+    env_file:
+      - ../backend/.env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cloudbreak
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+volumes:
+  pgdata_dev:
