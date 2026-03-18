@@ -1,3 +1,5 @@
+name: cloudbreak
+
 services:
   api:
     container_name: cloudbreak-backend
