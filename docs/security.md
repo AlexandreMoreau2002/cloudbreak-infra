@@ -93,10 +93,10 @@ Accès uniquement par clé SSH depuis ta machine. La clé privée ne quitte jama
 
 ```bash
 # Dump manuel
-docker exec infra-db-1 pg_dump -U postgres cloudbreak > backup_$(date +%Y%m%d).sql
+docker exec cloudbreak-db pg_dump -U postgres cloudbreak > backup_$(date +%Y%m%d).sql
 
 # Restore
-cat backup.sql | docker exec -i infra-db-1 psql -U postgres cloudbreak
+cat backup.sql | docker exec -i cloudbreak-db psql -U postgres cloudbreak
 ```
 
 ---
