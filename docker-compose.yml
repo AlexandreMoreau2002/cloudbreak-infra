@@ -1,5 +1,6 @@
 services:
   api:
+    container_name: cloudbreak-backend
     build:
       context: ../backend
       dockerfile: Dockerfile
@@ -20,6 +21,7 @@ services:
     restart: unless-stopped
 
   db:
+    container_name: cloudbreak-db
     image: postgres:16-alpine
     environment:
       POSTGRES_USER: postgres
@@ -35,10 +37,12 @@ services:
     restart: unless-stopped
 
   redis:
+    container_name: cloudbreak-redis
     image: redis:7-alpine
     restart: unless-stopped
 
   caddy:
+    container_name: cloudbreak-caddy
     image: caddy:2-alpine
     ports:
       - "80:80"
